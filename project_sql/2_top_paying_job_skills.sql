@@ -1,24 +1,50 @@
+/*
+----------------------------------------------------
+Question:
+What skills are required for the top 10 highest-paying remote Data Analyst jobs?
+
+Approach:
+- First, identify the top 10 highest-paying remote Data Analyst job postings
+- Then, map each job to its required skills using relational skill tables
+- Finally, extract and display the associated skills for these high-paying roles
+
+Key filters:
+- Data Analyst roles only
+- Remote jobs only
+- Valid salary data
+----------------------------------------------------
+*/
+
 WITH top_paying_jobs AS (
     SELECT 
-        job_id,
-        job_title,
-        salary_year_avg,
-        job_posted_date,
-        name AS company_name
-    FROM job_postings_fact
-        LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
-    WHERE job_title_short = 'Data Analyst'
-        AND job_location = 'Anywhere'
-        AND salary_year_avg IS NOT NULL
+        j.job_id,
+        j.job_title,
+        j.salary_year_avg,
+        j.job_posted_date,
+        c.name AS company_name
+    FROM job_postings_fact j
+    LEFT JOIN company_dim c 
+        ON j.company_id = c.company_id
+    WHERE 
+        j.job_title_short = 'Data Analyst' 
+        AND j.job_location = 'Anywhere'
+        AND j.salary_year_avg IS NOT NULL
     ORDER BY 
-        salary_year_avg DESC
+        j.salary_year_avg DESC
     LIMIT 10
 )
+
 SELECT 
-    top_paying_jobs.*,
-    skills_dim.skills
-FROM top_paying_jobs
-    INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
-    INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+    tpj.job_id,
+    tpj.job_title,
+    tpj.company_name,
+    tpj.salary_year_avg,
+    tpj.job_posted_date,
+    s.skills
+FROM top_paying_jobs tpj
+INNER JOIN skills_job_dim sj
+    ON tpj.job_id = sj.job_id
+INNER JOIN skills_dim s
+    ON sj.skill_id = s.skill_id
 ORDER BY 
-    salary_year_avg DESC;
+    tpj.salary_year_avg DESC;
