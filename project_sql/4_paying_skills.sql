@@ -18,7 +18,7 @@ Key filters:
 
 SELECT
     s.skills,
-    ROUND(AVG(salary_year_avg),0) AS average_salary
+    ROUND(AVG(salary_year_avg),0) AS avg_salary
 FROM job_postings_fact j
 INNER JOIN skills_job_dim sj
     ON j.job_id = sj.job_id

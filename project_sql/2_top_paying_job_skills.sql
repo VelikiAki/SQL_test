@@ -29,9 +29,6 @@ WITH top_paying_jobs AS (
         j.job_title_short = 'Data Analyst' 
         AND j.job_location = 'Anywhere'
         AND j.salary_year_avg IS NOT NULL
-    ORDER BY 
-        j.salary_year_avg DESC
-    LIMIT 10
 )
 
 SELECT 
