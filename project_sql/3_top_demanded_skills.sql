@@ -11,7 +11,7 @@ Approach:
 
 Key filter:
 - Data Analyst roles only
-
+- Remote jobs only
 ----------------------------------------------------
 */
 
@@ -25,6 +25,7 @@ INNER JOIN skills_dim s
     ON sj.skill_id = s.skill_id
 WHERE
     j.job_title_short = 'Data Analyst'
+    AND j.job_location = 'Anywhere'
 GROUP BY
     s.skills
 ORDER BY
