@@ -11,6 +11,7 @@ Key filters:
 */
 
 SELECT
+    j.job_id,
     j.job_title,
     j.job_location,
     j.job_schedule_type,
